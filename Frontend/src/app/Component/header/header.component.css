@@ -33,3 +33,17 @@
   font-family: 'Times New Roman', Times, serif;
   font-size: 1.2rem;
 }
+.div1{
+  display: flex;
+
+}
+.profile{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.profile>img{
+  width: 3rem;
+  height: 3rem;
+  border-radius: 20rem;
+}

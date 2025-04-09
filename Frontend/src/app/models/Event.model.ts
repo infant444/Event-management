@@ -1,4 +1,4 @@
-export class Event{
+export class Events{
   id!:string;
   name!:string;
   categories!:string;

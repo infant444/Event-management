@@ -1,12 +1,19 @@
 <div class="container">
   <div class="content">
-    <div class="event-home">
-      <div class="upper">
+    <div class="title">
+      <h1>Treasured by<br>Thousand of event</h1>
+    </div>
+    <div class="event">
+      <div class="event-home" *ngFor="let e of events">
+        <div class="upper">
+          <img [src]="e.image?.[0]" alt="">
+            <span>[{{e.mode}}</span>
+          </div>
 
-        </div>
-        <div class="lower">
+          <div class="lower">
 
-        </div>
+          </div>
+      </div>
     </div>
   </div>
 </div>
