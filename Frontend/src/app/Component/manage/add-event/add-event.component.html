@@ -1,0 +1,113 @@
+<div class="container">
+  <div class="content">
+    <div class="title">
+      <h1>Create Event</h1>
+    </div>
+    <form [formGroup]="event" (ngSubmit)="submit()">
+      <div class="create">
+        <div class="div1">
+          <div class="input">
+            <label for="">Name</label>
+            <input type="text" formControlName="name">
+          </div>
+          <div class="input">
+            <label for="">Category</label>
+            <select formControlName="categories" onchange="">
+              <option value="category" selected>Category</option>
+              <option value="social_entertainment">Social & Entertainment</option>
+              <option value="tech_development">Tech & Development</option>
+              <option value="art_creativity">Art & Creativity</option>
+              <option value="culture_community">Culture & Community</option>
+              <option value="health_wellness">Health & Wellness</option>
+              <option value="career_education">Career & Education</option>
+              <option value="market_commerce">Market & Commerce</option>
+              <option value="family_kids">Family & Kids</option>
+              <option value="spiritual_self-discovery">Spiritual & Self-Discovery</option>
+              <option value="gaming&esports">Gaming & Esports</option>
+              <option value="online_virtual_events">Online / Virtual Events</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="div2">
+          <div class="input">
+            <label for="">Description</label>
+            <textarea type="text" formControlName="description" rows="7"></textarea>
+          </div>
+          <div class="input">
+            <label for="">Poster</label>
+            <img src="" alt="" srcset="">
+            <input type="file" formControlName="Image" accept="image/*">
+          </div>
+        </div>
+
+        <div class="div3">
+          <div class="input">
+            <label for="">Mode</label>
+            <div class="radio">
+              <input type="radio" formControlName="mode" value="offline">
+              <label for="">Offline</label>
+            </div>
+            <div class="radio">
+              <input type="radio" formControlName="mode" value="online">
+              <label for="">Online</label>
+            </div>
+          </div>
+          <div class="input">
+            <label for="">{{Fc.mode.value=="offline"?'location':'platform'}}</label>
+            <input type="text" formControlName="location">
+          </div>
+          <div class="input">
+            <label for="">{{Fc.mode.value=="offline"?'Map link':'Meeting link'}}</label>
+            <input type="text" formControlName="location_link"
+              placeholder="{{Fc.mode.value=='offline'?'':'if it available'}}">
+          </div>
+        </div>
+        <div class="div4">
+          <div class="input">
+            <label for="">Event Date</label>
+            <input type="text" formControlName="date">
+          </div>
+          <div class="input">
+            <label for="">Event Time</label>
+            <input type="text" formControlName="time">
+          </div>
+          <div class="input">
+            <label for="">Last Date to Register</label>
+            <input type="text" formControlName="lastDate">
+          </div>
+        </div>
+        <div class="div5">
+          <div class="input">
+            <label for="">Price</label>
+            <input type="number" formControlName="price">
+          </div>
+          <div class="input">
+            <label for="">No of Seat Allowed</label>
+            <input type="number" formControlName="limit">
+          </div>
+          <div class="input">
+            <label for="">Tags</label>
+            <input type="text" formControlName="tag" placeholder="separated with ','">
+          </div>
+
+        </div>
+        <div class="div6">
+          <div class="input">
+            <label for="">Host</label>
+            <input type="text" formControlName="host" placeholder="separated with ','">
+          </div>
+          <!-- <div class="input">
+            <label for="">Language</label>
+            <select type="text" formControlName="language" >
+              <option *ngFor="let x of lan" [value]="x.code">{{x.name}}</option>
+            </select>
+          </div> -->
+        </div>
+        <div class="div7">
+          <input type="submit" value="create">
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

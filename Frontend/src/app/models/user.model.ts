@@ -1,0 +1,20 @@
+export class User{
+  id!:string;
+  name!:string;
+  username!:string;
+  profile!:string;
+  DOB!:string;
+  gender!:string;
+  language!:string;
+  email!:string;
+  password!:string;
+  mode!:string;
+  mobile!:string;
+  insta!:string;
+  facebook!:string;
+  linkedin!:string;
+  type!:string;
+  subscription!:boolean;
+  subscription_End!:string;
+  intresated?:string[];
+}
