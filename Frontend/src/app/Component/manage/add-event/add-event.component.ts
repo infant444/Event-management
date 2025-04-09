@@ -1,63 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule,FormGroup, FormBuilder, Validators,} from '@angular/forms';
 import { Lan } from '../../../models/data/lan';
+import { CommonModule } from '@angular/common';
+import { EventService } from '../../../Services/event/event.service';
 
 @Component({
   selector: 'app-add-event',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './add-event.component.html',
   styleUrl: './add-event.component.css'
 })
 export class AddEventComponent implements OnInit {
-  constructor( private formBuilder:FormBuilder){}
+  constructor( private formBuilder:FormBuilder,
+    private eventServices:EventService
+  ){}
   event!:FormGroup;
   isSubmitted=false;
-    lan=[
-    { code: "hi", name: "Hindi" },
-    { code: "en", name: "English" },
-    { code: "ta", name: "Tamil" },
-    { code: "te", name: "Telugu" },
-    { code: "kn", name: "Kannada" },
-    { code: "ml", name: "Malayalam" },
-    { code: "mr", name: "Marathi" },
-    { code: "bn", name: "Bengali" },
-    { code: "gu", name: "Gujarati" },
-    { code: "pa", name: "Punjabi" },
-    { code: "or", name: "Odia" },
-    { code: "as", name: "Assamese" },
-    { code: "ur", name: "Urdu" },
-    { code: "kok", name: "Konkani" },
-    { code: "sd", name: "Sindhi" },
-    { code: "ne", name: "Nepali" },
-    { code: "ks", name: "Kashmiri" },
-    { code: "ma", name: "Maithili" },
-    { code: "san", name: "Sanskrit" },
-    { code: "mni", name: "Manipuri" },
-    { code: "doi", name: "Dogri" },
-    { code: "bho", name: "Bhojpuri" },
-    { code: "raj", name: "Rajasthani" },
-    { code: "ch", name: "Chhattisgarhi" },
-    { code: "ho", name: "Ho" },
-    { code: "sat", name: "Santali" },
-    { code: "gon", name: "Gondi" },
-    { code: "lep", name: "Lepcha" },
-    { code: "bh", name: "Bhil" }
-  ];
+  imagePreview:any;
+  lan=Lan;
   selectedFiles:File[]=[]
-
+  datex=new Date().toISOString().split('T')[0];;
   ngOnInit(): void {
-    console.log(this.lan)
+    // console.log(this.lan)
     this.event=this.formBuilder.group({
       name:["",Validators.required],
       Image:["",Validators.required],
-      categories:["category",Validators.required],
+      categories:["",Validators.required],
       description:["",Validators.required],
       date:["",Validators.required],
       time:["",Validators.required],
       location:["",Validators.required],
       location_link:[''],
       mode:['offline',Validators.required],
-      price:[0,Validators.required],
+      price:[0],
       limit:[0,Validators.required],
       tag:["",Validators.required],
       lastDate:["",Validators.required],
@@ -72,16 +47,52 @@ export class AddEventComponent implements OnInit {
     onFileSelected(event: any) {
       this.selectedFiles = Array.from(event.target.files);
       console.log(this.selectedFiles)
+      const file = (event.target as HTMLInputElement).files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+
+      reader.readAsDataURL(file);
+    }
+
     }
   submit(){
     this.isSubmitted=true;
-    if(this.event.invalid){
+    const fv=this.event.value;
+    const tags=fv.tag.split(",");
+    const host=fv.host.split(",");
+    // console.log(fv)
+    if(this.event.invalid && fv.categories!='category'){
       console.log("invalid")
       return;
     }
     const formData=new FormData();
 
+    // console.log(fv.date);
+    // console.log(fv.time);
+
     this.selectedFiles.map((file,index)=>{
       formData.append("files",file,file.name)});
+    formData.append("name",fv.name);
+    formData.append("description",fv.description);
+    formData.append("categories",fv.categories);
+    formData.append("date",fv.date);
+    formData.append("time",fv.time);
+    formData.append("location",fv.location);
+    formData.append("location_link",fv.location_link);
+    formData.append("mode",fv.mode);
+    formData.append("price",fv.price);
+    formData.append("limit",fv.limit);
+    formData.append("tag",tags);
+    formData.append("lastDate",fv.lastDate);
+    formData.append("host",host);
+    formData.append("language",fv.language);
+    this.eventServices.AddEvent(formData).subscribe((x)=>{
+      console.log(x);
+    })
   }
 }

@@ -2,11 +2,12 @@ export class Event{
   id!:string;
   name!:string;
   categories!:string;
-  image!:string;
+  image?:string[];
   description!:string;
   date!:string;
   time!:string;
   location!:string;
+  location_link!:string;
   mode!:string;
   price!:number;
   limit!:number;

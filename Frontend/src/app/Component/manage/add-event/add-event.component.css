@@ -35,9 +35,74 @@ input,select,textarea{
   background-color: rgba(211, 211, 211, 0.729);
   padding: 1rem;
   border-radius: 1rem;
+  font-size: 1.1rem;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  letter-spacing: 1px;
 }
-.div1,.div2{
+.div1,.div2,.div4,.div5,.div6{
   width: 100%;
   display: flex;
 }
 
+.upload,.img{
+  width: 100%;
+  height: 12rem;
+  background-color:rgba(211, 211, 211, 0.729) ;
+  border-radius:1rem ;
+
+  padding: .5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.upload>img{
+  height: 6rem;
+}
+.img>img{
+  height: 11rem;
+
+}
+#f{
+  display: none;
+}
+.div3{
+  display: flex;
+}
+.div8{
+  margin: .5rem 0;
+  display: flex;
+
+}
+.radio{
+  margin: 0 .5rem;
+}
+.div7{
+  width: 100%;
+  text-align: center;
+}
+.error{
+  border: 2px solid red;
+}
+@media (max-width:1222px) {
+  .create{
+    margin: 0;
+  }
+}
+@media (max-width:900px) {
+  .create{
+    margin: 0 5rem;
+  }
+  .div3,.div1,.div2,.div4,.div5,.div6{
+    flex-wrap: wrap;
+  }
+.upload,.img{
+  width: auto;
+}
+}
+@media (max-width:650px) {
+  .create{
+    margin: 0;
+  }
+}

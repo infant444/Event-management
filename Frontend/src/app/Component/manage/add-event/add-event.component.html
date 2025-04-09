@@ -7,13 +7,12 @@
       <div class="create">
         <div class="div1">
           <div class="input">
-            <label for="">Name</label>
-            <input type="text" formControlName="name">
+            <label for="">Event Name</label>
+            <input type="text" formControlName="name" [className]="(isSubmitted && Fc.name.invalid)?'error':''">
           </div>
-          <div class="input">
+          <div class="input" >
             <label for="">Category</label>
-            <select formControlName="categories" onchange="">
-              <option value="category" selected>Category</option>
+            <select formControlName="categories" onchange="" [className]="(isSubmitted && Fc.categories.invalid)?'error':''">
               <option value="social_entertainment">Social & Entertainment</option>
               <option value="tech_development">Tech & Development</option>
               <option value="art_creativity">Art & Creativity</option>
@@ -32,30 +31,41 @@
         <div class="div2">
           <div class="input">
             <label for="">Description</label>
-            <textarea type="text" formControlName="description" rows="7"></textarea>
+            <textarea type="text" formControlName="description" rows="8" [className]="(isSubmitted && Fc.description.invalid)?'error':''"></textarea>
           </div>
           <div class="input">
             <label for="">Poster</label>
-            <img src="" alt="" srcset="">
-            <input type="file" formControlName="Image" accept="image/*">
+            <div class="pev">
+              <label for="f" [className]="(isSubmitted && Fc.Image.invalid)?'error':''">
+                <div class="upload" *ngIf="!imagePreview" >
+                  <img src="./images/upload.svg" alt="">
+                </div>
+                <div class="img" *ngIf="imagePreview">
+                  <img [src]="imagePreview" alt="" srcset="" >
+                </div>
+              </label>
+            </div>
+            <input type="file" formControlName="Image" accept="image/*" (change)="onFileSelected($event)" id="f" multiple>
           </div>
         </div>
 
         <div class="div3">
           <div class="input">
             <label for="">Mode</label>
-            <div class="radio">
-              <input type="radio" formControlName="mode" value="offline">
-              <label for="">Offline</label>
-            </div>
-            <div class="radio">
-              <input type="radio" formControlName="mode" value="online">
-              <label for="">Online</label>
+            <div class="div8">
+              <div class="radio">
+                <input type="radio" formControlName="mode" value="offline">
+                <label for="">Offline</label>
+              </div>
+              <div class="radio">
+                <input type="radio" formControlName="mode" value="online">
+                <label for="">Online</label>
+              </div>
             </div>
           </div>
           <div class="input">
             <label for="">{{Fc.mode.value=="offline"?'location':'platform'}}</label>
-            <input type="text" formControlName="location">
+            <input type="text" formControlName="location" [className]="(isSubmitted && Fc.location.invalid)?'error':''">
           </div>
           <div class="input">
             <label for="">{{Fc.mode.value=="offline"?'Map link':'Meeting link'}}</label>
@@ -66,15 +76,15 @@
         <div class="div4">
           <div class="input">
             <label for="">Event Date</label>
-            <input type="text" formControlName="date">
+            <input type="date" formControlName="date" [className]="(isSubmitted && Fc.date.invalid)?'error':''" [min]="datex">
           </div>
           <div class="input">
             <label for="">Event Time</label>
-            <input type="text" formControlName="time">
+            <input type="time" formControlName="time" [className]="(isSubmitted && Fc.time.invalid)?'error':''">
           </div>
           <div class="input">
             <label for="">Last Date to Register</label>
-            <input type="text" formControlName="lastDate">
+            <input type="date" formControlName="lastDate" [className]="(isSubmitted && Fc.lastDate.invalid)?'error':''" [min]="datex">
           </div>
         </div>
         <div class="div5">
@@ -84,25 +94,27 @@
           </div>
           <div class="input">
             <label for="">No of Seat Allowed</label>
-            <input type="number" formControlName="limit">
+            <input type="number" formControlName="limit" [className]="(isSubmitted && Fc.limit.invalid)?'error':''">
           </div>
           <div class="input">
-            <label for="">Tags</label>
-            <input type="text" formControlName="tag" placeholder="separated with ','">
+            <label for="">Language</label>
+            <select type="text" formControlName="language" [className]="(isSubmitted && Fc.language.invalid)?'error':''">
+              <option *ngFor="let x of lan" [value]="x.code">{{x.name}}</option>
+            </select>
           </div>
+
 
         </div>
         <div class="div6">
           <div class="input">
-            <label for="">Host</label>
-            <input type="text" formControlName="host" placeholder="separated with ','">
+            <label for="">Tags</label>
+            <input type="text" formControlName="tag" placeholder="separated with ','" [className]="(isSubmitted && Fc.tag.invalid)?'error':''">
           </div>
-          <!-- <div class="input">
-            <label for="">Language</label>
-            <select type="text" formControlName="language" >
-              <option *ngFor="let x of lan" [value]="x.code">{{x.name}}</option>
-            </select>
-          </div> -->
+          <div class="input">
+            <label for="">Host</label>
+            <input type="text" formControlName="host" placeholder="separated with ','" [className]="(isSubmitted && Fc.host.invalid)?'error':''">
+          </div>
+
         </div>
         <div class="div7">
           <input type="submit" value="create">

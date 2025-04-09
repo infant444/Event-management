@@ -1,6 +1,7 @@
 
 import{connect, ConnectOptions} from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
 export const dbconnect=()=>{
     connect(process.env.MONGODB_URL!,{
