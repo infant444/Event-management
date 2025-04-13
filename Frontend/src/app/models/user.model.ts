@@ -16,5 +16,7 @@ export class User{
   type!:string;
   subscription!:boolean;
   subscription_End!:string;
-  intresated?:string[];
+  interested?:string[];
+  credit?:number;
+  token!:string;
 }

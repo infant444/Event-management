@@ -2,8 +2,9 @@ import express from "express";
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 import asynhandler from 'express-async-handler';
-import streamifier from 'streamifier';
 import { eventModel, Events } from "../models/event.model";
+import { STATUS } from "../constant/status";
+import { EVENTSTATUS } from "../constant/event_status";
 const route = express();
 const s = multer.memoryStorage();
 const upload = multer({
@@ -11,7 +12,40 @@ const upload = multer({
   limits: { fieldSize: 1024 * 1024 }
 });
 
+route.get('/update',asynhandler(
+async(req,res)=>{
+  try{
+    const events= await eventModel.find({ status: { $ne: 'expired' } });
+    const now = new Date();
+    for(const event of events){
+      const eventDate = new Date(event.date); 
+      const LastDate = new Date(event.lastDate); 
+      let newStatus=EVENTSTATUS.NEW;
+      if(LastDate<now){
+        newStatus=EVENTSTATUS.REGISTERCLOSE;
+        if(eventDate==now){
+        newStatus=EVENTSTATUS.GOINGON;
 
+        }
+        else if(eventDate<now){
+          newStatus=EVENTSTATUS.COMPLETED;
+        }
+      }
+
+      if (event.status !== newStatus) {
+        event.status = newStatus;
+        await event.save();
+        console.log(`Updated "${event.name}" to ${newStatus}`);
+      }
+
+    }
+    res.json({"message":"successfully updated"})
+
+  }catch(e){
+    res.status(STATUS.BAD_STATUS).json({"message":e});
+  }
+}
+))
 route.post("/addevent", upload.array("files"), asynhandler(
   async (req, res) => {
     try {
@@ -48,7 +82,8 @@ route.post("/addevent", upload.array("files"), asynhandler(
               lastDate,
               host,
               participate,
-              language
+              language,
+              status: EVENTSTATUS.NEW
             }
             const y = await eventModel.create(x);
             res.send(y);
@@ -71,7 +106,8 @@ route.post("/addevent", upload.array("files"), asynhandler(
           lastDate,
           host,
           participate,
-          language
+          language,
+          status: EVENTSTATUS.NEW
         }
         const y = await eventModel.create(x);
         res.send(y);
@@ -86,7 +122,7 @@ route.post("/addevent", upload.array("files"), asynhandler(
 
 route.get("/listAll",asynhandler(
   async(req,res)=>{
-    const event=await eventModel.find();
+    const event=await eventModel.find({status:EVENTSTATUS.NEW}).sort({ createAt: -1 });;
     res.send(event);
   }
 ))

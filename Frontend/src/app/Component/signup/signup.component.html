@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="content">
+    <div class="page1">
+      <div class="title1">
+        Sign up
+      </div>
+      <div class="div1">
+        <form [formGroup]="firstPage" (Submit)="firstSubmit()">
+          <div class="input">
+            <label for="">Email</label>
+            <input type="email" formControlName="email">
+          </div>
+          <div class="input">
+            <label for="">Password</label>
+            <div class="pass">
+              <input [type]="PassType" formControlName="password">
+              <mat-icon class="vis" (click)="passShow()">{{PassTxt}}</mat-icon>
+
+            </div>
+          </div>
+          <div class="input">
+            <label for="">confirm password</label>
+            <div class="pass">
+              <input [type]="ConPassType" formControlName="confirmPassword">
+              <mat-icon class="vis" (click)="ConPassShow()">{{ConPassTxt}}</mat-icon>
+            </div>
+          </div>
+          <div class="input sub1">
+            <input type="submit" class="submit1">
+          </div>
+        </form>
+        <div class="div2">
+          Already have a account? <span (click)="login()">login</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -4,15 +4,54 @@
       <h1>Treasured by<br>Thousand of event</h1>
     </div>
     <div class="event">
-      <div class="event-home" *ngFor="let e of events">
+      <div class="event-home" *ngFor="let e of events?.slice(0,10)">
         <div class="upper">
           <img [src]="e.image?.[0]" alt="">
-            <span>[{{e.mode}}</span>
+          <span><mat-icon *ngIf="e.mode==='online'">videocam</mat-icon><span>
+              {{e.mode}}
+            </span></span>
+        </div>
+
+        <div class="lower">
+          <div class="div5">
+            <div class="div4">
+              <span class="free" *ngIf="!e.price">Free</span>
+              <span  *ngIf="e.price">{{e.price|currency:"INR"}}</span>
+
+            </div>
+            <div class="div6">
+              <span>
+                {{e.categories}}
+              </span>
+            </div>
           </div>
 
-          <div class="lower">
+          <div class="div1">
+            <span class="location">
+              <mat-icon *ngIf="e.mode!=='online'">location_pin</mat-icon>
+              <mat-icon *ngIf="e.mode==='online'">videocam</mat-icon>
+              <span>
+                {{e.location}}
+              </span> </span>
+            <div class="div2">
+              <span>
+                <mat-icon>calendar_month</mat-icon>
+                <span> {{covertDate(e.date)}}</span>
+              </span>
+              <span>
+                <mat-icon>schedule</mat-icon>
+                <span>{{convertTo12Hour(e.time)}}</span>
+              </span>
+            </div>
+          </div>
+          <div class="name">
+            {{e.name}}
+          </div>
+          <div class="host">
+            <span>hosts :&nbsp; <span *ngFor="let x of e.host">{{x}}</span></span>
 
           </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 import {Schema,model} from "mongoose";
+import { EVENTSTATUS } from "../constant/event_status";
 export interface Events{
     name:string;
     categories:string;
@@ -16,6 +17,7 @@ export interface Events{
     host:string[];
     participate:string[];
     language:string;
+    status:string;
 }
 
 export const EventSchema=new Schema<Events>({
@@ -35,6 +37,7 @@ export const EventSchema=new Schema<Events>({
     host:{type:[String],required:true},
     participate:{type:[String],required:true},
     language:{type:String,required:true},
+    status:{type:String,default:EVENTSTATUS.NEW}
 },
 {
   toJSON:{

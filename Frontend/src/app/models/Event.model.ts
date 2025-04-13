@@ -16,4 +16,5 @@ export class Events{
   host?:string[];
   participate?:string[];
   language!:string;
+  status!:string;
 }

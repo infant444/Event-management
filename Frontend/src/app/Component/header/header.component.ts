@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-
+constructor(private router:Router){}
   profile!:string;
   ngOnInit(): void {
     this.profile=this.generateInitialsImage()
@@ -25,5 +26,8 @@ export class HeaderComponent implements OnInit {
       </svg>
     `;
     return 'data:image/svg+xml;base64,' + btoa(svg);
+  }
+  login(){
+    this.router.navigateByUrl("/login");
   }
 }
