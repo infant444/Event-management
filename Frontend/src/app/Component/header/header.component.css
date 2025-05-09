@@ -13,7 +13,7 @@
   margin: .5rem;
   align-items: center;
 }
-.title>img{
+.title>a>img{
   height: 3rem;
   border-radius: 10rem;
 }

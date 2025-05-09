@@ -1,19 +1,20 @@
 <div class="container">
   <div class="content">
-    <div class="page1">
+    <!-- Email and password -->
+    <div class="page1" *ngIf="page1">
       <div class="title1">
         Sign up
       </div>
       <div class="div1">
-        <form [formGroup]="firstPage" (Submit)="firstSubmit()">
+        <form [formGroup]="firstPage" (ngSubmit)="firstSubmit()">
           <div class="input">
             <label for="">Email</label>
-            <input type="email" formControlName="email">
+            <input type="email" formControlName="email"  [className]="(firstIsSubmitted && Fc1.email.invalid)?'error':''">
           </div>
           <div class="input">
             <label for="">Password</label>
             <div class="pass">
-              <input [type]="PassType" formControlName="password">
+              <input [type]="PassType" formControlName="password" [className]="(firstIsSubmitted && Fc1.password.invalid)?'error':''">
               <mat-icon class="vis" (click)="passShow()">{{PassTxt}}</mat-icon>
 
             </div>
@@ -21,7 +22,7 @@
           <div class="input">
             <label for="">confirm password</label>
             <div class="pass">
-              <input [type]="ConPassType" formControlName="confirmPassword">
+              <input [type]="ConPassType" formControlName="confirmPassword" [className]="(firstIsSubmitted && Fc1.confirmPassword.invalid)?'error':''">
               <mat-icon class="vis" (click)="ConPassShow()">{{ConPassTxt}}</mat-icon>
             </div>
           </div>
@@ -34,5 +35,107 @@
         </div>
       </div>
     </div>
+
+
+
+
+    <!-- OTP Verification -->
+    <div class="page2" *ngIf="page2">
+      <div class="title1">
+        OTP Verification
+        <form [formGroup]="otpForm" (ngSubmit)="otpSubmit()" class="otp-form">
+          <div class="otp-wrap">
+            <ng-container *ngFor="let controlName of controlNames; let i = index">
+              <input
+                type="text"
+                maxlength="1"
+                formControlName="{{ controlName }}"
+                (input)="moveFocus($event, i)"
+                (keyup.backspace)="moveBack(i)"
+                (keyup.arrowright)="moveBack(i)"
+                (keyup.arrowleft)="moveFront(i)"
+                class="otp-input"
+              />
+            </ng-container>
+          </div>
+        <button type="submit" [disabled]="otpForm.invalid">Verify OTP</button>
+
+        </form>
+
+
+        <p class="counter" *ngIf="!canResend">{{counter}}s</p>
+        <p class="resend-text">
+          Didn’t receive the code?
+          <span (click)="canResend ? resendOtp() : null" [class]="canResend ?'resend':'onResend'">Resend</span>
+        </p>
+      </div>
+    </div>
+
+
+
+    <!-- Basic info -->
+     <div class="page3" *ngIf="page3">
+      <div class="title1">
+        Account info
+      </div>
+      <div class="div1">
+        <form [formGroup]="secondPage" (ngSubmit)="secondSubmit()">
+          <div class="input">
+            <label for="">Name</label>
+            <input type="text" formControlName="name"  [className]="(secondIsSubmitted && Fc2.email.invalid)?'error':''">
+          </div>
+          <div class="input">
+            <label for="">Username</label>
+            <input type="text" formControlName="username"  [className]="(secondIsSubmitted && Fc2.username.invalid)?'error':''" (input)="checkUser()">
+            <span *ngIf="availableUser" class="txt-error">The username is Already exists</span>
+          </div>
+          <div class="input">
+            <label for="">Date of Birth</label>
+            <input type="date" formControlName="DOB"  [className]="(secondIsSubmitted && Fc2.date.invalid)?'error':''">
+          </div>
+          <div class="input sub1">
+            <input type="submit" class="submit1" value="Next">
+          </div>
+        </form>
+
+      </div>
+     </div>
+
+
+
+     <div class="page4" *ngIf="page4">
+      <h2>Select Your Interests</h2>
+      <div class="search-box">
+        <input type="text" placeholder="Search by keyword" [(ngModel)]="search" (input)="searchTag()" (keyup.enter)="autoSelect(search)"/>
+        <ul *ngIf="tags && search" class="tages">
+          <li *ngFor="let tag of tags.slice(0,5)" (click)="autoSelect(tag)">{{tag}}</li>
+        </ul>
+
+      </div>
+      <div class="category" *ngFor="let category of eventCategories">
+        <div class="category-header" (click)="toggleCategory(category)">
+          <span>{{ category.title }}</span>
+          <span class="arrow">{{ category.expanded ? '▲' : '▼' }}</span>
+        </div>
+        <div class="tags" *ngIf="category.expanded">
+          <span
+            class="tag"
+            *ngFor="let tag of category.tags"
+            [class.selected]="selectedTags.includes(tag)"
+            (click)="toggleTag(tag)"
+          >
+            {{ tag }}
+            <span *ngIf="selectedTags.includes(tag)" class="remove">×</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="butt">
+        <span class="skip" (click)="submit(false)">
+          skip
+        </span>
+        <button class="next-btn" (click)="submit(true)">Next</button>
+      </div>
+     </div>
   </div>
 </div>

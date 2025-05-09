@@ -5,12 +5,23 @@ import asynhandler from 'express-async-handler';
 import { eventModel, Events } from "../models/event.model";
 import { STATUS } from "../constant/status";
 import { EVENTSTATUS } from "../constant/event_status";
+import { EventCategoriesModel } from "../models/eventCategories.model";
+import { EventCategoriesSample } from "../data/EventCategories";
 const route = express();
 const s = multer.memoryStorage();
 const upload = multer({
   storage: s,
   limits: { fieldSize: 1024 * 1024 }
 });
+// User event
+route.get("/listAll",asynhandler(
+  async(req,res)=>{
+    const event=await eventModel.find({status:EVENTSTATUS.NEW}).sort({ createAt: -1 });;
+    res.send(event);
+  }
+))
+
+
 
 route.get('/update',asynhandler(
 async(req,res)=>{
@@ -46,6 +57,9 @@ async(req,res)=>{
   }
 }
 ))
+
+// organizer side event handling
+
 route.post("/addevent", upload.array("files"), asynhandler(
   async (req, res) => {
     try {
@@ -120,11 +134,23 @@ route.post("/addevent", upload.array("files"), asynhandler(
   }
 ));
 
-route.get("/listAll",asynhandler(
+
+// Event Categories
+route.get("/event-categories/seed",asynhandler(
   async(req,res)=>{
-    const event=await eventModel.find({status:EVENTSTATUS.NEW}).sort({ createAt: -1 });;
-    res.send(event);
+    const EventCategoriesCount = await EventCategoriesModel.countDocuments();
+    if (EventCategoriesCount > 0) {
+        res.send("Seed is already done");
+        return;
+    }
+    await EventCategoriesModel.create(EventCategoriesSample);
+    res.send("Seed is Done");
   }
 ))
-
+route.get("/event-categories/getall",asynhandler(
+  async(req,res)=>{
+    const categories=await EventCategoriesModel.find();
+    res.send(categories)
+  }
+))
 export default route;

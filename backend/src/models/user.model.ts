@@ -38,7 +38,7 @@ export interface User{
     type:{type:String,default:"user"},
     subscription:{type:Boolean},
     subscription_End:{type:String},
-    interested:{type:[String],required:true},
+    interested:{type:[String]},
     credit:{type:Number,default:15},
   },{
     toJSON:{

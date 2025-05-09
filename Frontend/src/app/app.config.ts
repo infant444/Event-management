@@ -3,9 +3,10 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
-import { provideHttpClient,withInterceptors } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient,withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import {provideAnimations} from "@angular/platform-browser/animations";
 import { provideToastr } from 'ngx-toastr';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true })
@@ -18,6 +19,12 @@ export const appConfig: ApplicationConfig = {
       positionClass: 'toast-bottom-right',
       preventDuplicates: true,
     }),
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true
+    }
 
   ]
 };
