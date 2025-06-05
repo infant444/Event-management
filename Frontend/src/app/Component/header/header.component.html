@@ -1,17 +1,16 @@
 <div class="container">
-<div class="content">
-<div class="title">
-<a routerLink="/">
-<img src="./images/icon-text.png" alt="">
-</a></div>
-<div class="nav">
+  <div class="content">
+    <div class="title">
+        <img src="./images/icon-text.png" alt="" (click)="main()">
+    </div>
+    <div class="nav">
 
-</div>
-<div class="div1">
-  <div class="profile">
-    <img [src]="profile" alt="">
+    </div>
+    <div class="div1">
+      <div class="profile">
+        <img [src]="profile" alt="">
+      </div>
+      <button class="login" (click)="login()">Login</button>
+    </div>
   </div>
-  <button class="login" (click)="login()">Login</button>
-</div>
-</div>
 </div>

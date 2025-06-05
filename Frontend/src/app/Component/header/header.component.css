@@ -13,9 +13,10 @@
   margin: .5rem;
   align-items: center;
 }
-.title>a>img{
+.title>img{
   height: 3rem;
   border-radius: 10rem;
+  cursor: pointer;
 }
 
 .login{
