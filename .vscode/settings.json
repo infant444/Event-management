@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "cloudinaryconnect",
-        "dbconnect"
+        "dbconnect",
+        "navcol"
     ],
     "postman.settings.dotenv-detection-notification-visibility": false
 }

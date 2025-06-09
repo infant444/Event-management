@@ -1,16 +1,108 @@
 <div class="container">
   <div class="content">
+   <div class="div6">
+     <div class="div2"  (click)="menu()">
+      <mat-icon>{{arrow1}}</mat-icon>
+    </div>
     <div class="title">
-        <img src="./images/icon-text.png" alt="" (click)="main()">
+      <img src="./images/icon-text.png" alt="" (click)="main()">
     </div>
-    <div class="nav">
-
-    </div>
-    <div class="div1">
-      <div class="profile">
-        <img [src]="profile" alt="">
+   </div>
+    <div class="div4" [ngClass]="down1?'show':''">
+      <div class="div5">
+        <div class="pro">
+          pro
+        </div>
+        Try for free
       </div>
-      <button class="login" (click)="login()">Login</button>
+      <div class="nav">
+
+        <div class="navcol">
+          <div class="nav1 temp">
+            <mat-icon>home</mat-icon>
+            Home
+          </div>
+          <div class="nav1 temp">
+            <mat-icon>bubble_chart</mat-icon>
+            Your Group
+          </div>
+          <div class="nav1">
+            <mat-icon>
+              people
+            </mat-icon>
+            Connections
+
+          </div>
+          <div class="nav1">
+            <mat-icon>message</mat-icon>
+            Messages
+          </div>
+          <div class="nav1">
+            <mat-icon>insert_invitation</mat-icon>
+            Your Events
+          </div>
+          <div class="nav1">
+            <div class="noti">
+            <mat-icon>notifications </mat-icon>
+<div> </div>
+            </div>
+            notification
+          </div>
+          <div class="nav3 temp">
+            <hr>
+            <div class="nav31">
+              Settings
+            </div>
+            <div class="nav31">
+              Help
+            </div>
+          </div>
+
+          <div class="nav2" [ngClass]="down?'':'hide'">
+            <div class="nav21">
+              Your group
+            </div>
+            <hr>
+            <div class="nav21">
+              Your profile
+            </div>
+            <div class="nav21">
+              Settings
+            </div>
+            <div class="nav21">
+              Help
+            </div>
+            <div class="nav21">
+              Logout
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div1">
+        <div class="profile" *ngIf="user.profile">
+          <img [src]="profile" alt="{{user.name}}">
+        </div>
+
+        <div class="div3" (click)="extra()">
+          <mat-icon>{{arrow}}</mat-icon>
+        </div>
+        <button class="login" (click)="login()" *ngIf="!user.name">Login</button>
+      </div>
+      <div class="div7 pro">
+        Start new group -40% off
+      </div>
+      <div class="div8">
+          <div class="profile1" *ngIf="user.profile">
+          <img [src]="profile" alt="{{user.name}}">
+          <div class="div9">
+            <p>{{user.name}}</p>
+            <a routerLink="/" >View profile</a>
+          </div>
+        </div>
+        <div class="log">
+          Logout
+        </div>
+      </div>
     </div>
   </div>
 </div>

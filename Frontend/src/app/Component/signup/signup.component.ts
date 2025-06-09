@@ -134,7 +134,7 @@ export class SignupComponent implements OnInit{
     this.setTimer()
 
       },error:(x)=>{
-        this.toastrServices.error(x)
+        this.toastrServices.error(x.error)
       }
     }
 

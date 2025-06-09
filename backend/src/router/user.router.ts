@@ -1,6 +1,6 @@
 import  express  from "express";
 import asyncHandler from "express-async-handler";
-import bcryptjs from "bcryptjs";
+import bcrypt from "bcryptjs";
 import { User, UserModel } from "../models/user.model";
 import { STATUS } from "../constant/status";
 import nodeMailer from 'nodemailer';
@@ -10,7 +10,7 @@ import { generateOtpTokenResponse, generateTokenResponse } from "../middleware/j
 import { verify } from "jsonwebtoken";
 import { verifyUserToken } from "../middleware/mail.middleware";
 const route=express()
-
+// Register User
 route.post("/signup",asyncHandler(
     async(req,res)=>{
         const {name,username,password,interested,email,DOB}=req.body;
@@ -28,7 +28,7 @@ route.post("/signup",asyncHandler(
             gender: "",
             language: "",
             email,
-            password: await bcryptjs.hash(password,10),
+            password: await bcrypt.hash(password,10),
             mode: "free",
             mobile: "",
             insta: "",
@@ -57,6 +57,12 @@ route.get("/check-username/:uname",asyncHandler(
 ));
 route.get("/send-verify/:email",asyncHandler(
     async(req,res)=>{
+      const user=await UserModel.findOne({email:req.params.email});
+      if(user){
+        res.status(STATUS.BAD_STATUS).send("Already email exist!")
+        return;
+      }
+      console.log("hoo!")
         let transporter = nodeMailer.createTransport(MailConfig);
         let otpCode="";
         for (let i=0;i<4;i++){
@@ -112,6 +118,29 @@ route.post("/verify",asyncHandler(
        } 
     }
 ))
+// Login
+route.post("/login",asyncHandler(
+  async(req,res)=>{
+    const {user,type,pass}=req.body;
+    let data;
+    
+    if(type=="Username"){
+      data = await UserModel.findOne({username:user});
+    }else{
+      data = await UserModel.findOne({email:user});
+    }
+    console.log(data);
+    if(data){
+      if( (await bcrypt.compare(pass,data.password))){
+      res.send(generateTokenResponse(data));
+      }else{
+      res.status(STATUS.BAD_STATUS).send("Wrong password");
+      }
 
+    }else{
+      res.status(STATUS.BAD_STATUS).send("Invalid "+type);
+    }
+  }
+))
 
 export default route;

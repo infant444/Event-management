@@ -1,1 +1,33 @@
-<p>login works!</p>
+<div class="container">
+  <div class="content">
+    <div class="page">
+      <div class="title1">
+        Login
+      </div>
+      <div class="div1">
+        <form [formGroup]="loginForm" (ngSubmit)="submit()">
+          <div class="input">
+            <label for="">Username or Email</label>
+            <input type="text" formControlName="email" [className]="(isSubmit && Fc1.email.invalid)?'error':''">
+          </div>
+          <div class="input">
+            <label for="">Password</label>
+            <div class="pass">
+              <input [type]="PassType" formControlName="pass"
+                [className]="(isSubmit && Fc1.pass.invalid)?'error':''">
+              <mat-icon class="vis" (click)="passShow()">{{PassTxt}}</mat-icon>
+
+            </div>
+          </div>
+
+          <div class="input sub1">
+            <input type="submit" class="submit1">
+          </div>
+        </form>
+        <div class="div2">
+          Don't have and account? <span (click)="signup()">Sign up</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

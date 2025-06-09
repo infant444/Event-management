@@ -1,1 +1,1 @@
-export const USER_KEY="User"
+export const USER_KEY="UserX"
